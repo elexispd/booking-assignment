@@ -22,8 +22,9 @@ class RatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rider_id' => ['required', 'exists:users,id'],
+            'booking_id' => ['required'],
             'rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'comment' => ['string'],
         ];
     }
 }

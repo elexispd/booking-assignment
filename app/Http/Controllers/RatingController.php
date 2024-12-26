@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RatingRequest;
 use App\Models\Rating;
 use App\Models\User;
+use App\Models\Booking;
 
 
 class RatingController extends Controller
@@ -15,10 +16,16 @@ class RatingController extends Controller
         $request->validated($request->all());
         $rating = Rating::create([
             'user_id' => auth()->id(),
-            'booking_id' => $request->rider_id,
+            'booking_id' => $request->booking_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
+
+        $booking = Booking::findOrFail($request->booking_id);
+
+        if ($booking->status !== 'completed') {
+            $booking->update(['status' => 'completed']);
+        }
 
         return response()->json($rating, 201);
     }

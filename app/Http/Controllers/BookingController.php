@@ -44,6 +44,7 @@ class BookingController extends Controller
             'status' => 'accepted',
         ]);
 
+
         return response()->json($booking);
     }
 
